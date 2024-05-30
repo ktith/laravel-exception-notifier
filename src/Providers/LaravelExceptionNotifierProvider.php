@@ -6,6 +6,8 @@ use Illuminate\Support\ServiceProvider;
 
 class LaravelExceptionNotifierProvider extends ServiceProvider
 {
+    private $_packageTag = 'exception-notifier';
+
     /**
      * Bootstrap services.
      *
@@ -13,6 +15,6 @@ class LaravelExceptionNotifierProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        $this->mergeConfigFrom(__DIR__.'/../config/exceptions.php', $this->_packageTag);
     }
 }
