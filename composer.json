@@ -1,0 +1,43 @@
+{
+    "name": "ktith/aravel-exception-notifier",
+    "keywords": [
+        "laravel",
+        "exception",
+        "notification",
+        "telegram",
+        "telegram-notifications",
+        "telegram-notification",
+        "laravel-exceptions",
+        "exception-handler",
+        "exception-telegram",
+        "exception-telegram",
+        "exception-messages"
+    ],
+    "license": "MIT",
+    "type": "package",
+    "autoload": {
+        "psr-4": {
+            "ktith\\laravelexceptionnotifier\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Tith Khem",
+            "email": "titkhem167@gmail.com"
+        }
+    ],
+    "require": {
+        "php": "^8.0",
+        "guzzlehttp/guzzle": "^7.0.1"
+    },
+    "require-dev": {
+        "laravel/framework": "9.*|10.*"
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "ktith\\laravelexceptionnotifier\\LaravelExceptionNotifier"
+            ]
+        }
+    }
+}
