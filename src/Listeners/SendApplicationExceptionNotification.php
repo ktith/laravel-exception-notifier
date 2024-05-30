@@ -37,7 +37,6 @@ class SendApplicationExceptionNotification
      */
     public function handle(ExceptionNotifier $event)
     {
-        info("HEYYY");
         $user_agent = request()->header('user-agent');
 
         $ip = request()->ip();
