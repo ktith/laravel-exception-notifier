@@ -9,6 +9,10 @@
 ![GitHub contributors](https://img.shields.io/github/contributors/rappasoft/laravel-boilerplate.svg)
 ![GitHub stars](https://img.shields.io/github/stars/rappasoft/laravel-boilerplate.svg?style=social)
 
+### DEMO 
+
+![Demo Page](https://i.imgur.com/zAgKgUd.jpeg)
+
 ### Enjoying this tool? [Buy me a beer 🍺](https://k-tith.web.app)
 
 ## Installation
