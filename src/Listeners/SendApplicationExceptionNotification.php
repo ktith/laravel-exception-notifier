@@ -93,8 +93,10 @@ class SendApplicationExceptionNotification
         $telegram_token = config('exception-notifier.telegram-error.token');
         $telegram_chat_id = config('exception-notifier.telegram-error.chat_id');
         try{
-            $client = new Client(['verify' => false]);
-            $client->get('https://api.telegram.org/bot'.$telegram_token.'/sendMessage?chat_id=' . $telegram_chat_id . '&text=' . $message);
+            if(config('exception-notifier.exception_notify_enabled')){
+                $client = new Client(['verify' => false]);
+                $client->get('https://api.telegram.org/bot'.$telegram_token.'/sendMessage?chat_id=' . $telegram_chat_id . '&text=' . $message);
+            }
         }catch(\Exception $e){
             _log('MESSAGE SEND TO TELEGRAM BOT', $message);
             _log("ERROR SEND NOTIFICATION", $e->getMessage());
