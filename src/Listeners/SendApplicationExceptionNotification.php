@@ -17,7 +17,7 @@ class SendApplicationExceptionNotification
     /**
      * @var \Symfony\Component\HttpKernel
      */
-    public $exception;
+    private $exception;
 
     /**
      * Create the event listener.
@@ -37,39 +37,31 @@ class SendApplicationExceptionNotification
      */
     public function handle(ExceptionNotifier $event)
     {
+        // Get Agent
         $user_agent = request()->header('user-agent');
+        $ip         = request()->ip();
 
-        $ip = request()->ip();
-
+        // Get IP Info
         try {
             $ip_info = json_decode(file_get_contents("http://ipinfo.io/{$ip}/json"));
         } catch (\Exception $ex) {
 
         }
         $this->exception = $event->exception;
-        $camdxrequet = null;
-        $id = "NOTHING";
-        if(auth()->check()){
-            $id = auth()->id();
-        }
-        $camdxrequet = session('err_request_'.$id);
-        if(session()->exists('err_request_'.$id)){
-            session()->forget('err_request_'.$id);
-        }
-        // $curl = $event->curl;
-        // if($camdxrequet){
-        //     $curl = guzzleToCurl($camdxrequet);
-        // }
         $error_msg = $this->exception->getMessage();
 
-        if($this->exception instanceof NotFoundHttpException){
-            $error_msg = 'Route not found! URL requsted: '.url()->current();
+        // Enable notify
+        if(config('exception-notifier.enable_notify_when_access_not_found')){
+            if($this->exception instanceof NotFoundHttpException){
+                $error_msg = 'Route not found! URL requsted: '.url()->current();
+            }
         }
 
         $location = $ip_info->loc ?? 'N/A';
         $region = $ip_info->region ?? 'N/A';
         $url = url()->current() ?? 'N/A';
-        $title = "🚨New Exceptions from ".config('app.name')." ".config('app.env')."🚨\n";
+        $title = "🚨 Exceptions from ".config('app.name')." ".config('app.env')." 🚨\n";
+
         $body = $error_msg."\n\n".
                 "⚙️Env • ".config('app.env')."\n".
                 "❗️File • ".$this->exception->getFile()." ".
@@ -82,9 +74,7 @@ class SendApplicationExceptionNotification
                 "🌍 ".$region."\n".
                 "📱 ".$user_agent;
 
-        // if($curl){
-        //     $body .=  "\n"."➰Curl • ".$curl;
-        // }
+        // Check authentication
         if(auth()->check()){
             $body = $body."\n"."🤵‍♂️ ".auth()->user()->name."\n";
         }
@@ -92,16 +82,14 @@ class SendApplicationExceptionNotification
         $message = $title."\n".$body;
         $telegram_token = config('exception-notifier.telegram-error.token');
         $telegram_chat_id = config('exception-notifier.telegram-error.chat_id');
+
         try{
             if(config('exception-notifier.exception_notify_enabled')){
                 $client = new Client(['verify' => false]);
                 $client->get('https://api.telegram.org/bot'.$telegram_token.'/sendMessage?chat_id=' . $telegram_chat_id . '&text=' . $message);
             }
         }catch(\Exception $e){
-            _log('MESSAGE SEND TO TELEGRAM BOT', $message);
-            _log("ERROR SEND NOTIFICATION", $e->getMessage());
-            $newEx = new \Exception("ERROR SEND NOTIFICATION");
-            // loggedWithTelegram($newEx, $curl);
+
         }
 
     }
