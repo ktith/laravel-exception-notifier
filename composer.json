@@ -17,7 +17,7 @@
     "type": "package",
     "autoload": {
         "psr-4": {
-            "ktith\\laravelexceptionnotifier\\": "src/"
+            "Ktith\\Laravelexceptionnotifier\\": "src/"
         }
     },
     "authors": [
