@@ -36,7 +36,7 @@
     "extra": {
         "laravel": {
             "providers": [
-                "ktith\\laravelexceptionnotifier\\Providers\\LaravelExceptionNotifierProvider"
+                "Ktith\\Laravelexceptionnotifier\\Providers\\LaravelExceptionNotifierProvider"
             ]
         }
     }
