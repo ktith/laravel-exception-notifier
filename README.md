@@ -28,7 +28,7 @@ git clone https://github.com/ktith/laravel-exception-notifier.git
 [Install PHP Composer](https://getcomposer.org/doc/00-intro.md)
 
 ```bash
-composer require ktith/aravel-exception-notifier
+composer require ktith/laravel-exception-notifier
 ```
 
 ## Usage
